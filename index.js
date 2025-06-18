@@ -23,26 +23,26 @@ app.use((req, res, next) => {
 });
 
 // 权限验证
-// app.use((req, res, next) => {
-//   // 对于访问登录接口和预检请求放行
-//   if (req.url == "/login" || req.method == "OPTIONS") {
-//     next();
-//     return;
-//   }
+app.use((req, res, next) => {
+  // 对于访问登录接口和预检请求放行
+  if (req.url == "/login" || req.method == "OPTIONS") {
+    next();
+    return;
+  }
 
-//   const token = req.headers["authorization"]?.split(" ")[1];
-//   const data = JWT.verify(token);
-//   if (data == false) {
-//     // JWT验证失败
-//     res.status(403).send({
-//       status: "error",
-//       msg: "JWT验证失败",
-//     });
-//   } else {
-//     // JWT验证成功
-//     next();
-//   }
-// });
+  const token = req.headers["authorization"]?.split(" ")[1];
+  const data = JWT.verify(token);
+  if (data == false) {
+    // JWT验证失败
+    res.status(403).send({
+      status: "error",
+      msg: "JWT验证失败",
+    });
+  } else {
+    // JWT验证成功
+    next();
+  }
+});
 
 // 引入路由
 const studentsRouter = require("./routes/students");
